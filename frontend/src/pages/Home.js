@@ -288,7 +288,6 @@ export default function Home() {
                           >
                             Edit
                           </Button>{" "}
-                          <Button variant="danger">Delete</Button>
                         </Card.Body>
                       </Card>{" "}
                     </Col>
