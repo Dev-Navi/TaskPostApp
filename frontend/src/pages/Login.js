@@ -9,6 +9,18 @@ import { useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+let toastOPtion = {
+  position: "top-right",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "dark",
+};
 
 const initialstate = {
   email: "",
@@ -74,9 +86,10 @@ export default function Login() {
         } else {
           setCookie("loggedin", true, { path: "/dashboard" });
           Cookies.set("userToken", result.result.token, { path: "/" });
+          toast.success("Login Successfully Completed", toastOPtion);
           setTimeout(() => {
             window.location.href = "/";
-          }, 1000);
+          }, 2000);
         }
       }
     } catch (err) {
@@ -95,13 +108,24 @@ export default function Login() {
                 name="email"
                 onChange={handleLogChange}
               />
+              {validateError.email && (
+                <span className="text-danger" style={{ fontSize: "13px" }}>
+                  {validateError.email}
+                </span>
+              )}
             </Col>
             <Col>
               <Form.Control
                 placeholder="Password"
+                type="password"
                 name="password"
                 onChange={handleLogChange}
               />
+              {validateError.password && (
+                <span className="text-danger" style={{ fontSize: "13px" }}>
+                  {validateError.password}
+                </span>
+              )}
             </Col>
           </Row>
           <Button

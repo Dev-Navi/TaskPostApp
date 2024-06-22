@@ -6,6 +6,18 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import { registerAction } from "../actions/apiActions";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+let toastOPtion = {
+  position: "top-right",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "dark",
+};
 
 let initialstate = {
   name: "",
@@ -78,8 +90,12 @@ export default function Register() {
           role,
         };
         const result = await registerAction(payload);
+        console.log(result, result.status, "ffff");
         if (result.status) {
-          window.location.href = "/login";
+          toast.success("Registeration Successfully Completed", toastOPtion);
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 3000);
         }
       }
     } catch (err) {

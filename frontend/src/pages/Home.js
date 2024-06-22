@@ -102,6 +102,7 @@ export default function Home() {
   console.log(formData, "formData");
 
   const formValidation = async () => {
+    console.log(file, "file12");
     let validateError = {};
     if (title.trim() == "") {
       validateError.title = "Title Required";
@@ -109,7 +110,7 @@ export default function Home() {
     if (desc.trim() == "") {
       validateError.desc = "Descrition Required";
     }
-    if (file == "") {
+    if (file == null) {
       validateError.image = "Image Required";
     }
     if (date == "") {
@@ -229,6 +230,11 @@ export default function Home() {
                     name="title"
                     onChange={handlePstChange}
                   />
+                  {validateError.title && (
+                    <span className="text-danger" style={{ fontSize: "13px" }}>
+                      {validateError.title}
+                    </span>
+                  )}
                 </Col>
                 <Col>
                   <Form.Control
@@ -236,6 +242,11 @@ export default function Home() {
                     name="desc"
                     onChange={handlePstChange}
                   />
+                  {validateError.desc && (
+                    <span className="text-danger" style={{ fontSize: "13px" }}>
+                      {validateError.desc}
+                    </span>
+                  )}
                 </Col>
               </Row>
               <Row className="mt-4">
@@ -246,6 +257,14 @@ export default function Home() {
                       name="image"
                       onChange={handlePstChange}
                     />
+                    {validateError.image && (
+                      <span
+                        className="text-danger"
+                        style={{ fontSize: "13px" }}
+                      >
+                        {validateError.image}
+                      </span>
+                    )}
                   </Form.Group>
                 </Col>
                 <Col>
@@ -255,6 +274,11 @@ export default function Home() {
                     name="date"
                     onChange={handlePstChange}
                   />
+                  {validateError.date && (
+                    <span className="text-danger" style={{ fontSize: "13px" }}>
+                      {validateError.date}
+                    </span>
+                  )}
                 </Col>
               </Row>
               <Button
@@ -280,7 +304,7 @@ export default function Home() {
                           <Card.Title>{ele.title}</Card.Title>
                           <Card.Text>{ele.desc}</Card.Text>
                           <ListGroup.Item className="mb-4">
-                            {moment(ele.createdAt).format("lll")}
+                            {moment(ele.date).format("lll")}
                           </ListGroup.Item>
                           <Button
                             variant="info"
@@ -316,7 +340,7 @@ export default function Home() {
                       <Card.Title>{ele.title}</Card.Title>
                       <Card.Text>{ele.desc}</Card.Text>
                       <ListGroup.Item className="mb-4">
-                        {moment(ele.createdAt).format("lll")}
+                        {moment(ele.date).format("lll")}
                       </ListGroup.Item>
                     </Card.Body>
                   </Card>{" "}
