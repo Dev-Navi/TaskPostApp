@@ -17,7 +17,12 @@ export const registerAction = async (data) => {
       message: respData.data.message,
     };
   } catch (err) {
-    console.log(err);
+    console.log(err, "erererer");
+    return {
+      loading: false,
+      status: err.response.data.success,
+      message: err.response.data.message,
+    };
   }
 };
 
@@ -38,6 +43,11 @@ export const LoginUser = async (data, dispatch) => {
     };
   } catch (err) {
     console.log(err);
+    return {
+      loading: false,
+      message: err.response.data.message,
+      status: err.response.data.success,
+    };
   }
 };
 
@@ -66,9 +76,9 @@ export const PostEdit = async (data) => {
   try {
     console.log(data, "datadatadata");
     let respData = await axios({
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
       method: "POST",
       url: `api/user/post-edit`,
       data: data,
@@ -85,7 +95,7 @@ export const PostEdit = async (data) => {
 
 export const getMystorePost = async (data) => {
   try {
-    console.log(data,'dennaaa');
+    console.log(data, "dennaaa");
     let respData = await axios({
       method: "post",
       url: `/api/user/getMyPost`,

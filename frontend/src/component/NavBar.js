@@ -13,29 +13,31 @@ function NavBar() {
     window.location.href = "/login";
   };
   return (
-    <Navbar expand="lg" className="bg-body-tertiary" data-bs-theme="dark">
-      <Container>
-        <Navbar.Brand href="/">Task Post App</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link onClick={haldeLogOut}>Logout</Nav.Link>
-            {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown> */}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <>
+      <nav
+        class="bg-white border-blue-200 dark:bg-gray-900"
+        style={{ boxShadow: "0 0 10px 0 #423d3d4a" }}
+      >
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+          <a
+            href="https://flowbite.com"
+            class="flex items-center space-x-3 rtl:space-x-reverse"
+          >
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              Blog App
+            </span>
+          </a>
+          <div class="flex items-center space-x-6 rtl:space-x-reverse">
+            <a
+              onClick={haldeLogOut}
+              class="text-sm  text-blue-600 dark:text-blue-500 hover:underline"
+            >
+              Logout
+            </a>
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }
 
