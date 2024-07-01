@@ -63,14 +63,23 @@ export const Login = async (req, res) => {
 export const PostCreate = async (req, res) => {
   try {
     const { title, desc, image, date } = req.body;
-    console.log(req.user, req.file, "eewewerewre");
+    console.log(req.files, "eewewerewre");
     await PostModal.create({
       userId: req.user._id,
       title,
-      image: req.file.filename,
       desc,
+      image: req.files,
       date,
     });
+
+    // for (const file of req.files) {
+    //   console.log(file.filename, "req.files.filename", req.user._id);
+    //   await PostModal.findOneAndUpdate(
+    //     { userId: req.user._id },
+    //     { $push: { image: file.filename } },
+    //     { new: true }
+    //   );
+    // }
     res.status(201).json({ success: true, message: "Post Created" });
   } catch (err) {
     console.log(err);

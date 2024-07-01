@@ -15,6 +15,8 @@ import { allUserGet } from "../redux/features/allUserSlice/allUserSlice";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import moment from "moment";
+import { toast } from "react-toastify";
+import SimpleImageSlider from "react-simple-image-slider";
 
 const initialState = {
   title: "",
@@ -47,7 +49,6 @@ export default function Home() {
   console.log(posts, "posts", status, user, allUser);
   const { title, image, desc, date, file } = formData;
   const { title1, desc1, file1 } = formData1;
-
   const handleClose = () => setShow(false);
   const handleShow = (id) => {
     console.log(id, "ididid");
@@ -82,7 +83,7 @@ export default function Home() {
     const { name, value, files } = e.target;
     let formdata = { ...formData };
     if (name == "image") {
-      formdata.file = files[0];
+      formdata.file = files;
     } else {
       formdata = { ...formData, ...{ [name]: value } };
     }
@@ -133,22 +134,29 @@ export default function Home() {
     return validateError;
   };
 
-  const handlePostCreate = async () => {
+  const handlePostCreate = async (e) => {
+    e.preventDefault();
     const check = await formValidation();
+    let imgArr = [];
     console.log(check, "checkwwwww");
     var errorsSize = Object.keys(check).length;
     console.log(errorsSize, "errorsSize");
     if (errorsSize == 0) {
       let formData = new FormData();
+      for (let i = 0; i < file.length; i++) {
+        formData.append("images", file[i]);
+        // imgArr.push(file[i]);
+      }
       formData.append("title", title);
       formData.append("desc", desc);
-      formData.append("image", file);
       formData.append("date", date);
       const result = await PostCreate(formData);
       if (result.status) {
         console.log("Done");
         dispatch(getMyPost());
-        window.location.reload();
+        setFormData({ title: "", desc: "", date: "", file: null });
+        toast.success("Post Created Successfully!!");
+        // window.location.reload();
       }
     }
   };
@@ -235,6 +243,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="title"
+                    value={title}
                     class="shadow-sm p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     placeholder="Enter Title"
                     onChange={handlePstChange}
@@ -256,6 +265,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="desc"
+                    value={desc}
                     class="shadow-sm p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     placeholder="Enter Description"
                     onChange={handlePstChange}
@@ -278,6 +288,9 @@ export default function Home() {
                   <input
                     type="file"
                     name="image"
+                    accept="image/*"
+                    multiple
+                    id="imgg"
                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     required
                     onChange={handlePstChange}
@@ -298,6 +311,7 @@ export default function Home() {
                   <input
                     type="date"
                     name="date"
+                    value={date}
                     class="shadow-sm p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                     onChange={handlePstChange}
                   />
@@ -388,14 +402,25 @@ export default function Home() {
               <div className="container mx-auto px-20 py-6">
                 <div className="grid grid-cols-4 gap-4">
                   {posts.length > 0 &&
-                    posts.map((ele) => {
+                    posts.map((ele, i) => {
+                      let images = ele.image.map((el) => ({
+                        url: "http://localhost:4000/postImg/" + el.filename,
+                      }));
+                      console.log(images, "imagesimagesimages");
                       return (
                         <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                           <a href="#">
-                            <img
+                            {/* <img
                               class="rounded-t-lg"
-                              src={"http://localhost:4000/postImg/" + ele.image}
+                              src={"http://localhost:4000/postImg/" + ele.image?.[i]?.filename}
                               alt=""
+                            /> */}
+                            <SimpleImageSlider
+                              width={270}
+                              height={200}
+                              images={images}
+                              showBullets={true}
+                              showNavs={true}
                             />
                           </a>
                           <div class="p-5">

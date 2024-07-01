@@ -21,8 +21,7 @@ const PostSchema = new Schema(
       type: Date,
     },
     image: {
-      type: String,
-      default: "",
+      type: Array,
     },
   },
   { timestamps: true }

@@ -21,7 +21,7 @@ Router.route("/registration").post(UserCnt.Register);
 Router.route("/login").post(UserCnt.Login);
 
 Router.route("/post-create").post(
-  upload.single("image"),
+  upload.array("images"),
   passportAuth,
   UserCnt.PostCreate
 );
